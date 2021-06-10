@@ -1,6 +1,3 @@
-const $ = require("jquery");
-global.$ = global.jQuery = $;
-require("bootstrap")
-require("popper.js")
+require('./bootstrap');
 
-console.log("Chargement de app.js")
+require('alpinejs');

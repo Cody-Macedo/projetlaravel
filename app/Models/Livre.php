@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Livre extends Model
 {
     use HasFactory;
+
+    public function categories(){
+        return$this->belongsTo(Categorie::class);
+    }
 }

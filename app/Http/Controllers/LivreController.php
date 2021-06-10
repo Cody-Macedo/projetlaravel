@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use App\Models\Livre;
 use Illuminate\Http\Request;
 
 class LivreController extends Controller
 {
     //
+
+    public function __construct()
+    {
+        $this->middleware("auth");
+    }
+
     public function list()
     {
         $livres = Livre::all();
@@ -20,43 +27,51 @@ class LivreController extends Controller
         if ($request->isMethod("POST")) {
             $request->validate([
                 "titre" => "required",
-                "auteur" => "required"
+                "auteur" => "required",
+                "category" => "required"
             ]);
             $titre = $request->input("titre");
             $auteur = $request->input("auteur");
+            $category = $request->input("category");
 
             $livre = new Livre();
             $livre->titre = $titre;
             $livre->auteur = $auteur;
+            $livre->categories_id = $category;
             $livre->save();
 
             return redirect("/livres/list")->with('status', 'Livre ajouté!');
         }
-
-        return view("livres.form");
+        $categories = Categorie::all();
+        return view("livres.form", ['categories' => $categories]);
     }
 
     public function update(Request $request)
     {
         $id = $request->route('id');
         $livre = Livre::find($id);
-
+        if(empty($livre)){
+            abort("418");
+        }
         if ($request->isMethod("POST")) {
             $request->validate([
                 "titre" => "required",
-                "auteur" => "required"
+                "auteur" => "required",
+                "category" => "required"
             ]);
             $titre = $request->input("titre");
             $auteur = $request->input("auteur");
+            $category = $request->input("category");
 
             $livre->titre = $titre;
             $livre->auteur = $auteur;
+            $livre->categories_id = $category;
             $livre->save();
 
             return redirect("/livres/list")->with('status', 'Livre modifié!');
         }
-
-        return view("livres.form", ["livre" => $livre]);
+        $categories = Categorie::all();
+        return view("livres.form", ['categories' => $categories ,"livre" => $livre]);
     }
 
     public function delete(Request $request)

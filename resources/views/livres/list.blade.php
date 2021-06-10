@@ -14,7 +14,7 @@
 
         <div class="inline position-relative">
             <h1>Livres</h1>
-            <a class="link-no-decoration position-absolute end-0" href="/livres/form"><img class="medium-svg" src="{{asset('assets/svg/plus-square-regular.svg')}}" alt="trash"></a>
+            <a class="link-no-decoration position-absolute end-0" href="/livres/form"><i class="far fa-plus-square fa-2x"></i></a>
         </div>
 
         @if(isset($search))
